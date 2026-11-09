@@ -1,5 +1,7 @@
 # Luce Garage Card
 
+![Luce Garage Card preview](preview.png)
+
 A compact, instrument-style Lovelace card for electric cars: analog-looking dials for battery, range and 12 V, hardware-style keys, door and window status, and a weekly schedule. Cars stay side by side even on a phone in portrait.
 
 Built for the [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo) integration, but every entity is configurable, so it can work with other car integrations. Single JavaScript file, no dependencies. Italian and English.
@@ -68,11 +70,11 @@ cars:
 | `schedule` | Alternative to `schedule_id`: `enabled`, `time`, and `days` (7 entities, Monday first) |
 | `entities` | `battery`, `range`, `aux_battery`, `updated`, `charging`, `climate`, `lock`, `heat`, `refresh`, `windows_open`, `windows_vent`, `windows_close`, `doors`, `windows` |
 
-Card options: `language` and `columns` (default 2). For a full-page layout use a *panel* view, as in [`examples/dashboard.yaml`](examples/dashboard.yaml).
+Card options: `language` and `columns` (default 2). For a full-page layout use a *panel* view, as in [`dashboard.yaml`](dashboard.yaml).
 
 ## Heating script and weekly schedule
 
-[`examples/packages/luce_garage.yaml`](examples/packages/luce_garage.yaml) creates the helpers, a heating script and the automation for one car. Replace `my_ev` and `REPLACE_WITH_DEVICE_ID`; you find the device id in the URL of the car's device page. Heating options vary by model, so test them with the car nearby. The schedule starts switched off.
+[`luce_garage.yaml`](luce_garage.yaml) creates the helpers, a heating script and the automation for one car. Replace `my_ev` and `REPLACE_WITH_DEVICE_ID`; you find the device id in the URL of the car's device page. Heating options vary by model, so test them with the car nearby. The schedule starts switched off.
 
 Heat, Unlock, Refresh, Open and Vent need two taps: the first arms the key for 3 seconds, the second sends the command. Refreshing wakes the car and uses some 12 V battery.
 
