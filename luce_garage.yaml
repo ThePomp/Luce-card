@@ -1,0 +1,118 @@
+# Luce Garage Card - example package for ONE car.
+# 1. Replace my_ev with a short id for your car (letters, digits, underscore).
+# 2. Replace REPLACE_WITH_DEVICE_ID in the script (see the README).
+# 3. Adjust temperature, duration and the heating options to your car.
+# Needs: homeassistant: packages: !include_dir_named packages
+
+input_boolean:
+  my_ev_schedule_enabled:
+    name: My EV schedule enabled
+    icon: mdi:calendar-check
+  my_ev_schedule_mon:
+    name: My EV schedule Monday
+  my_ev_schedule_tue:
+    name: My EV schedule Tuesday
+  my_ev_schedule_wed:
+    name: My EV schedule Wednesday
+  my_ev_schedule_thu:
+    name: My EV schedule Thursday
+  my_ev_schedule_fri:
+    name: My EV schedule Friday
+  my_ev_schedule_sat:
+    name: My EV schedule Saturday
+  my_ev_schedule_sun:
+    name: My EV schedule Sunday
+
+input_datetime:
+  my_ev_schedule_time:
+    name: My EV schedule time
+    has_time: true
+    has_date: false
+
+script:
+  my_ev_heat:
+    alias: Heat My EV
+    icon: mdi:car-seat-heater
+    mode: single
+    sequence:
+      - action: kia_uvo.start_climate
+        data:
+          device_id: REPLACE_WITH_DEVICE_ID
+          climate: true
+          temperature: 21
+          duration: 15
+          defrost: false
+          heating: "0"
+          # Steering wheel: "0" off, "1" low, "2" high.
+          # Some EU models also need heating: "1", which can switch on the
+          # side mirror and rear window heaters as well.
+          steering_wheel: "1"
+          # Driver seat, only on cars that support it remotely:
+          # flseat: "7"
+
+automation:
+  - id: my_ev_heating_schedule
+    alias: Heat My EV on schedule
+    mode: single
+    triggers:
+      - trigger: time
+        at: input_datetime.my_ev_schedule_time
+    conditions:
+      - condition: state
+        entity_id: input_boolean.my_ev_schedule_enabled
+        state: "on"
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: mon
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_mon
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: tue
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_tue
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: wed
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_wed
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: thu
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_thu
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: fri
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_fri
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: sat
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_sat
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: time
+                weekday: sun
+              - condition: state
+                entity_id: input_boolean.my_ev_schedule_sun
+                state: "on"
+    actions:
+      - action: script.turn_on
+        target:
+          entity_id: script.my_ev_heat

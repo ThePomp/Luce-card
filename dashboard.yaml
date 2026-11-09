@@ -1,0 +1,17 @@
+# Full-page view. Use it in a dashboard's raw configuration editor.
+views:
+  - title: Cars
+    path: cars
+    type: panel
+    icon: mdi:car-electric
+    cards:
+      - type: custom:luce-garage-card
+        language: en
+        cars:
+          - name: My EV
+            prefix: my_ev
+            schedule_id: my_ev
+            image: /local/my_ev.webp
+            max_range: 500
+            entities:
+              heat: script.my_ev_heat
