@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- erba -->
+    <path android:fillColor="#7BC86C"
+        android:pathData="M30,72 L34,56 L38,72 Z M40,72 L45,50 L50,72 Z M58,72 L63,50 L68,72 Z M70,72 L74,56 L78,72 Z" />
+    <!-- corpo del robot -->
+    <path android:fillColor="#E8F5E2"
+        android:pathData="M32,72 Q32,58 54,58 Q76,58 76,72 Z" />
+    <path android:fillColor="#101412"
+        android:pathData="M28,72 L80,72 L80,76 L28,76 Z" />
+</vector>

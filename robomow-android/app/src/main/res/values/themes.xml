@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.Robomow" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#FF101412</item>
+        <item name="android:statusBarColor">#FF101412</item>
+        <item name="android:navigationBarColor">#FF101412</item>
+    </style>
+</resources>
