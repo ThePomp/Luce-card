@@ -78,6 +78,46 @@ Card options: `language` and `columns` (default 2). For a full-page layout use a
 
 Heat, Unlock, Refresh, Open and Vent need two taps: the first arms the key for 3 seconds, the second sends the command. Refreshing wakes the car and uses some 12 V battery.
 
+---
+
+# Luce Wallet Card
+
+A matching card for net worth: a large total, change per period (1D, 1W, 1M, 6M, 1Y) with an interactive chart, and allocation by account. Tap the total to hide amounts (remembered per device); tap an account to open its details.
+
+**Install:** copy `luce-wallet-card.js` to `/config/www/`, add the resource `/local/luce-wallet-card.js` of type *JavaScript module*, then fully reload the frontend.
+
+```yaml
+type: custom:luce-wallet-card
+title: Net worth
+total: sensor.net_worth              # needs history: state_class measurement
+change: sensor.net_worth_change_today  # optional: % (or amount) used for 1D
+default_period: day                  # day, week, month, half, year
+accounts:
+  - name: Broker
+    entity: sensor.broker_total
+    change: sensor.broker_return_day   # optional, % or amount
+    change_label: today
+  - name: Bank
+    entity: [sensor.bank_checking, sensor.bank_savings]  # summed
+  - name: Pension
+    entity: input_number.pension
+    in_total: false                    # listed apart, left out of the allocation
+```
+
+| Option | Description |
+|---|---|
+| `total` | Net worth entity. If omitted, the sum of the accounts is shown. |
+| `history` | Entity whose long-term statistics feed the chart (defaults to `total`). |
+| `change` | Today's change for 1D; `%` unit shows a percentage, otherwise an amount. `change_amount` adds the amount next to a percentage. |
+| `show_periods` | `false` hides the period keys. |
+| `currency`, `language`, `title` | Overrides. |
+| `accounts[].entity` | One entity or a list, summed. |
+| `accounts[].change`, `change_label`, `subtitle` | Second line under the account name. |
+| `accounts[].color` | Overrides the color; by default colors follow config order (8 slots). |
+| `accounts[].in_total` | `false` lists the account apart from the allocation. |
+
+1W, 1M, 6M and 1Y are computed from the total's long-term statistics, so they include deposits and withdrawals, not just market returns.
+
 ## License
 
 MIT

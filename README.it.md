@@ -41,3 +41,34 @@ Scalda, Sblocca, Aggiorna, Apri e Socchiudi richiedono due tocchi: il primo arma
 ## Licenza
 
 MIT
+
+---
+
+# Luce Wallet Card
+
+Card nello stesso stile per il patrimonio: valore totale grande, variazione per periodo (1G, 1S, 1M, 6M, 1A) con grafico interattivo, e ripartizione per conto. Tocca il totale per nascondere gli importi (la scelta resta salvata sul dispositivo); tocca un conto per aprirne i dettagli.
+
+## Installazione
+
+Copia `luce-wallet-card.js` in `/config/www/` e aggiungi la risorsa `/local/luce-wallet-card.js` di tipo *Modulo JavaScript* (Impostazioni → Dashboard → ⋮ → Risorse), poi chiudi e riapri l'app.
+
+## Configurazione
+
+```yaml
+type: custom:luce-wallet-card
+title: Patrimonio
+total: sensor.patrimonio_netto_totale     # serve lo storico: state_class measurement
+change: sensor.variazione_oggi            # facoltativo: % (o importo) per "1G"
+accounts:
+  - name: Broker
+    entity: sensor.broker_valore_totale
+    change: sensor.broker_rendimento_giorno   # facoltativo, % o importo
+    change_label: oggi
+  - name: Conto corrente
+    entity: [sensor.conto_1, sensor.conto_2]  # più entità vengono sommate
+  - name: Fondo pensione
+    entity: input_number.fondo_pensione
+    in_total: false                           # mostrato a parte, fuori dalla ripartizione
+```
+
+Le variazioni 1S, 1M, 6M e 1A sono calcolate dalle statistiche a lungo termine del totale: includono quindi anche versamenti e prelievi, non solo il rendimento. Altre opzioni: `history` (entità diversa per il grafico), `default_period` (`day`, `week`, `month`, `half`, `year`), `show_periods: false`, `currency`, `language`, `color` e `subtitle` per ogni conto. I colori seguono l'ordine dei conti nella configurazione (fino a 8).
